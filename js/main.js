@@ -6,15 +6,19 @@ async function getFetch() {
   const url = `https://www.dnd5eapi.co/api/subclasses/?name=${choice}`;
   try {
     const response = await fetch(url);
-    const data = await response.json();
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
+    const data = await response.json();
+
     console.log(data.results);
     data.results.forEach((obj) => {
-      const li = document.createElement("li");
-      li.textContent = obj.name;
-      document.querySelector("ul").appendChild(li);
+      if (choice === obj.name) {
+        const li = document.createElement("li");
+        li.textContent = obj.name;
+        document.querySelector("ul").textContent = "";
+        document.querySelector("ul").appendChild(li);
+      }
     });
   } catch (error) {
     console.error("Fetch error:", error);
